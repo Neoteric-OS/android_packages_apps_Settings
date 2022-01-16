@@ -469,4 +469,8 @@
     </plurals>
     <string name="wifi_hotspot_hidden_ssid_title">Hidden network</string>
     <string name="wifi_hotspot_hidden_ssid_summary">Your mobile hotspot\'s name won\'t appear in the list of available WLAN networks.</string>
+
+    <!-- Notification sound while screen on -->
+    <string name="notification_sound_vib_screen_on_title">Annoying notifications</string>
+    <string name="notification_sound_vib_screen_on_summary">Allow notification sound and vibration alerts when the screen is on</string>
 </resources>

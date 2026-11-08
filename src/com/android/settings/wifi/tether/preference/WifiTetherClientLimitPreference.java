@@ -17,18 +17,21 @@
 package com.android.settings.wifi.tether.preference;
 
 import android.content.Context;
-import android.widget.SeekBar;
 import android.util.AttributeSet;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import com.android.settings.R;
 import com.android.settings.SeekBarDialogPreference;
 
+import com.google.android.material.slider.Slider;
+
 public class WifiTetherClientLimitPreference extends SeekBarDialogPreference implements
-        SeekBar.OnSeekBarChangeListener {
+        Slider.OnChangeListener {
 
     private Context mContext;
-    private SeekBar mSeekBar;
+    private Slider mSlider;
     private int mValue;
     private int mMin;
     private int mMax;
@@ -39,33 +42,34 @@ public class WifiTetherClientLimitPreference extends SeekBarDialogPreference imp
     }
 
     @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
-        setText(getSummaryForValue(progress + mMin));
+    public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
+        setText(getSummaryForValue((int) value));
     }
 
     @Override
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
 
-        mSeekBar = getSeekBar(view);
-        mSeekBar.setOnSeekBarChangeListener(this);
-        mSeekBar.setMax(mMax - mMin);
-        mSeekBar.setProgress(mValue - mMin);
-    }
+        setText(getSummaryForValue(mValue));
 
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-    }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
+        mSlider = getSlider(view);
+        if (mSlider != null) {
+            mSlider.clearOnChangeListeners();
+            if (mMax > mMin) {
+                mSlider.setValueFrom(mMin);
+                mSlider.setValueTo(mMax);
+                mSlider.setStepSize(1f);
+                mSlider.setValue(Math.max(mMin, Math.min(mMax, mValue)));
+            }
+            mSlider.addOnChangeListener(this);
+        }
     }
 
     @Override
     protected void onDialogClosed(boolean positiveResult) {
         super.onDialogClosed(positiveResult);
-        if (positiveResult) {
-            setValue(mSeekBar.getProgress() + mMin, true);
+        if (positiveResult && mSlider != null) {
+            setValue((int) mSlider.getValue(), true);
         }
     }
 

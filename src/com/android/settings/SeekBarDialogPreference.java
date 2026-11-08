@@ -29,6 +29,8 @@ import android.widget.TextView;
 import com.android.settingslib.CustomDialogPreferenceCompat;
 import com.android.settings.R;
 
+import com.google.android.material.slider.Slider;
+
 /**
  * Based on frameworks/base/core/java/android/preference/SeekBarDialogPreference.java
  * except uses support lib preferences.
@@ -84,6 +86,11 @@ public class SeekBarDialogPreference extends CustomDialogPreferenceCompat {
         }
     }
 
+    protected static Slider getSlider(View dialogView) {
+        return (Slider) dialogView.findViewById(R.id.slider);
+    }
+
+    @Deprecated
     protected static SeekBar getSeekBar(View dialogView) {
         return (SeekBar) dialogView.findViewById(R.id.seekbar);
     }

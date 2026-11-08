@@ -75,11 +75,13 @@ public class PointerSpeedPreference extends SeekBarDialogPreference implements
         super.onBindDialogView(view);
 
         mSeekBar = getSeekBar(view);
-        mSeekBar.setMax(InputSettings.MAX_POINTER_SPEED - InputSettings.MIN_POINTER_SPEED);
-        mOldSpeed = InputSettings.getPointerSpeed(getContext());
-        mSeekBar.setProgress(mOldSpeed - InputSettings.MIN_POINTER_SPEED);
-        mSeekBar.setOnSeekBarChangeListener(this);
-        mSeekBar.setContentDescription(getTitle());
+        if (mSeekBar != null) {
+            mSeekBar.setMax(InputSettings.MAX_POINTER_SPEED - InputSettings.MIN_POINTER_SPEED);
+            mOldSpeed = InputSettings.getPointerSpeed(getContext());
+            mSeekBar.setProgress(mOldSpeed - InputSettings.MIN_POINTER_SPEED);
+            mSeekBar.setOnSeekBarChangeListener(this);
+            mSeekBar.setContentDescription(getTitle());
+        }
     }
 
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromTouch) {
